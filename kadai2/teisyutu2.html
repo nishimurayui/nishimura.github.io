@@ -71,13 +71,13 @@ scene.add( sphere2 );
     // 初回実行
     var update = function() {
       requestAnimationFrame(update);
-
+      const sec = performance.now()/1000;
       // 箱を回転させる
       torusKnot.rotation.x += 0.01;
       torusKnot.rotation.y += 0.01;
-      sphere1.rotation.y += 0.04;
+      sphere1.rotation.y += 0.01;
       sphere2.rotation.y -= 0.01;
-      sphere1.position.z +=0.01;
+      sphere1.position.z = sec*(Math.PI/4);
 
       torus.position.z +=0.06;
 
