@@ -77,12 +77,11 @@ scene.add( sphere2 );
       torusKnot.rotation.y += 0.01;
       sphere1.rotation.y += 0.01;
       sphere2.rotation.y -= 0.01;
-  for(int i=0;i<10;i++){
+
       torus.position.z +=0.01;
-}
     torus.position.z -=0.01;
       renderer.render(scene, camera);
-    };
+
     update();
   }
   window.addEventListener('DOMContentLoaded', init);
