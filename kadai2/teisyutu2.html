@@ -31,11 +31,13 @@
     camera.lookAt(new THREE.Vector3(0, 0, -5));
     // 箱を作成
     var geometry = new THREE.BoxGeometry(5, 2, 0.1);
-    var material = new THREE.MeshPhongMaterial({ color: 0xffffff});
+    var material = new new THREE.MeshStandardMaterial({color: 0x6699FF, roughness:0.5})
     var box = new THREE.Mesh(geometry, material);
     box.position.z = -5;
     scene.add(box);
 
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
     var sphereGeometry = new THREE.SphereGeometry( 0.5, 32, 32 );
     var sphereMaterial = new THREE. MeshPhongMaterial( {color: 0xff8800,wireframe: true} );
     var sphere1 = new THREE.Mesh( sphereGeometry, sphereMaterial );
