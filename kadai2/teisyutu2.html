@@ -30,15 +30,11 @@
     scene.add(box);
 
 
-    var directionalLight1 = new THREE.DirectionalLight(0xffffff);
-    directionalLight1.position.set(1, 1, 1);
+    var directionalLight = new THREE.DirectionalLight(0xffffff);
+    directionalLight.position.set(1, 1, 1);
 
-     scene.add(directionalLight1);
+     scene.add(directionalLight);
 
-     var directionalLight2 = new THREE.DirectionalLight(0xffffff);
-   directionalLight2.position.set(-1, 1, 1);
-
-    scene.add(directionalLight2);
 
     var update = function() {
      requestAnimationFrame(update);
