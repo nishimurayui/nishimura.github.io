@@ -9,10 +9,10 @@
 </head>
 <body>
   <script>
-  var init = funcion(){
+  var init = function(){
 
      var width = 800,
-     height = 600;
+         height = 600;
 
      var renderer = new THREE.WebGLRenderer();
      renderer.setSize(width,height);
@@ -39,10 +39,12 @@
    directionalLight2.position.set(-1, 1, 1);
 
     scene.add(directionalLight2);
-    
+
     var update = function() {
      requestAnimationFrame(update);
 
+     box.rotation.x += 0.01;
+     box.rotetion.y += 0.01;
 
      renderer.render(scene, camera);
    };
