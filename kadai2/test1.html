@@ -29,7 +29,7 @@
     var camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
 
     // 箱を作成
-    var geometry = new THREE.BoxGeometry(2, 1, 1);
+    var geometry = new THREE.BoxGeometry(2, 1, 0.1);
     var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
     var box = new THREE.Mesh(geometry, material);
     box.position.z = -5;
