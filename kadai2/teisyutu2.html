@@ -43,6 +43,14 @@
     sphere2.position.set( -1.3, 0, -5 );
     scene.add( sphere1 );
     scene.add( sphere2 );
+
+    var coneGeometry = new THREE.CylinderGeometry( 0, 1, 1, 32);
+var coneMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+var cone = new THREE.Mesh(coneGeometry, coneMaterial);
+cone.castShadow = true;
+　cone.position.set(-1,0,-5);
+scene.add(cone);
+
     // 平行光源(色、強さ）主光源
   var directionalLightM = new THREE.DirectionalLight(0xffffff,0.3);
   directionalLightM.position.set(0, 10, -5);
@@ -74,6 +82,10 @@
       box.rotation.y += 0.01;
       sphere1.rotation.y += 0.01;
       sphere2.rotation.y -= 0.01;
+
+      cone.rotation.z -= 0.01;
+ cone.rotation.y -= 0.01;
+ 
       renderer.render(scene, camera);
     };
     update();
