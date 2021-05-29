@@ -51,12 +51,6 @@ cone.castShadow = true;
 　cone.position.set(-1,0,-5);
 scene.add(cone);
 
-const pit = new THREE.Group();
-pit.add(sphere1);
-pit.add(sphere2);
-pit.add(cone
-  pit.position.set(0,1,0);
-
     // 平行光源(色、強さ）主光源
   var directionalLightM = new THREE.DirectionalLight(0xffffff,0.3);
   directionalLightM.position.set(0, 10, -5);
@@ -84,9 +78,13 @@ pit.add(cone
       requestAnimationFrame(update);
 
       // 箱を回転させる
-      box.rotation.x -= 0.01;
-      box.rotation.y -= 0.01;
-      pit.rotation.y += 0.05;
+      box.rotation.x += 0.01;
+      box.rotation.y += 0.01;
+      sphere1.rotation.y += 0.01;
+      sphere2.rotation.y -= 0.01;
+
+      cone.rotation.z -= 0.01;
+ cone.rotation.y -= 0.01;
 
       renderer.render(scene, camera);
     };
