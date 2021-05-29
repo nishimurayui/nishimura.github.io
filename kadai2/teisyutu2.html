@@ -45,7 +45,7 @@
     scene.add( sphere2 );
 
     var coneGeometry = new THREE.CylinderGeometry( 0, 1, 1, 32);
-var coneMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+var coneMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff ,wireframe: true});
 var cone = new THREE.Mesh(coneGeometry, coneMaterial);
 cone.castShadow = true;
 　cone.position.set(-1,0,-5);
@@ -85,7 +85,7 @@ scene.add(cone);
 
       cone.rotation.z -= 0.01;
  cone.rotation.y -= 0.01;
- 
+
       renderer.render(scene, camera);
     };
     update();
