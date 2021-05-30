@@ -39,11 +39,11 @@
     var sphereGeometry = new THREE.SphereGeometry( 0.5, 32, 32 );
     var sphereMaterial = new THREE. MeshPhongMaterial( {color: 0xff8800,wireframe: true} );
     var sphere1 = new THREE.Mesh( sphereGeometry, sphereMaterial );
-    var sphere2 = new THREE.Mesh( sphereGeometry, sphereMaterial );
+    //var sphere2 = new THREE.Mesh( sphereGeometry, sphereMaterial );
     sphere1.position.set( 1.3, 0, -5 );
-    sphere2.position.set( -1.3, 0, -5 );
+    //sphere2.position.set( -1.3, 0, -5 );
     scene.add( sphere1 );
-    scene.add( sphere2 );
+    //scene.add( sphere2 );
 
     var coneGeometry = new THREE.CylinderGeometry( 0, 1, 1, 32);
 var coneMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff});
@@ -82,7 +82,7 @@ scene.add(cone);
       box.rotation.x += 0.01;
       box.rotation.y += 0.01;
       sphere1.rotation.y += 0.01;
-      sphere2.rotation.y -= 0.01;
+      //sphere2.rotation.y -= 0.01;
 
       cone.rotation.z -= 0.01;
  cone.rotation.y -= 0.01;
