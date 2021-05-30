@@ -29,10 +29,14 @@
     var camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
 
 
-    var material = new THREE.MeshBasicMaterial( { color: 0x008866, wireframe:true } );
-          var mesh = new THREE.Mesh( new THREE.CubeGeometry( 200, 200, 200, 5, 5, 5 ), material );
-          mesh.rotation.x = 0.5;
-          mesh.rotation.y = 0.5;
+    var material = new THREE.MeshLambertMaterial( { color: 0x008866, wireframe:false } );
+     var mesh = new THREE.Mesh( new THREE.TorusGeometry( 200, 30, 20, 8, Math.PI * 1.9 ), material );
+     scene.add( mesh );
+
+     var light = new THREE.DirectionalLight(0xffffff);
+     light.position.set(1, 1, 1).normalize();
+     scene.add( light );
+     scene.add( new THREE.AmbientLight(0x333333) );
 
     // 平行光源1
     var directionalLight1 = new THREE.DirectionalLight(0xffffff);
