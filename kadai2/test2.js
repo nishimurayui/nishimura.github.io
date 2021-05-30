@@ -1,118 +1,90 @@
-/**
-* @fileoverview Class to create 3D digital clock object by using Three.js
-*
-* @author Irukanobox / http://irukanobox.blogspot.jp/
-*/
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>demo</title>
 
-/**
-* Class to create 3D digital clock object
-* @constructor
-*/
-var ThreeDClock = function() {
-    /**
-    * Date object
-    * @type {Date}
-    */
-   this._oldTime = null;
-   /**
-   * Array of Number objects
-   * @type {Array.<THREE.TextGeometry>}
-   */
-   this.object = [];
-   /**
-   * Colon ':' object
-   * @type {THREE.TextGeometry}
-   */
-   this.colon = null;
-};
-/**
- * Update number objects
- */
- ThreeDClock.prototype.update = function() {
+  <!-- three.jsを読み込む(ローカル) -->
+  <!-- <script src="./three.js"></script> -->
+  <!-- three.jsを読み込む(CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/99/three.min.js"></script>
 
-   var now = new Date();
-   var sec = now.getSeconds();
-   var min = now.getMinutes();
-   var hour = now.getHours();
+</head>
+<body>
+ <script>
+  var init = function() {
 
-   if (this._oldTime !== now) {
-       var digits = [];
-       digits[0] = Math.floor(hour / 10);
-       digits[1] = hour % 10;
-       digits[2] = Math.floor(min / 10);
-       digits[3] = min % 10;
-       digits[4] = Math.floor(sec / 10);
-       digits[5] = sec % 10;
+    var width = 800,
+        height = 600;
 
-       for (var j = 0; j < this.object.length; j++) {
-           var numbers = this.object[j].children;
-           for (var i = 0; i < numbers.length; i++) {
-               numbers[i].visible = false;
-           }
-           numbers[digits[j]].visible = true;
-       }
+    // レンダラーを作成
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize(width, height);
+    document.body.appendChild(renderer.domElement);
 
-       this._oldTime = now;
-   }
-};
-/**
- * Create and return a text object
- * @param {THREE.Font} font font loaded by THREE.FontLoader().load
- * @param {String} char String of 3D object
- * @param {Number} size Size of 3D object
- * @param {Boolean} visibility Visibility of 3D object
- * @return {THREE.Mesh} Created 3D text object
- */
-ThreeDClock.prototype._createMesh = function(font, char, size, visibility) {
-   var geometry = new THREE.TextGeometry(char, {
-       font: font,
-       size: size,
-       height: 0.1,
-       curveSegments: 15,
-       bevelThickness: 10,
-       bevelSize: 8,
-       bevelEnabled: false
-   } );
-   geometry.center();
+    // シーンを作成
+    var scene = new THREE.Scene();
 
-   var material = new THREE.MeshBasicMaterial({color: 0xffffff, transparent: true, opacity: 0.7});
-   var mesh = new THREE.Mesh(geometry, material);
-   mesh.visible = visibility;
+    // カメラを作成
+    var camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
 
-   return mesh;
-};
-/**
- * Create 3D digital clock object
- * @param {String} fontPath Path of JSON font file created by typeface.js
- *      https://gero3.github.io/facetype.js/
- * @param {Number} baseSize Size of 3D digital clock object
- * @param {THREE.Scene} scene Three.js scene instance
- */
-ThreeDClock.prototype.create = function(fontPath, baseSize, scene) {
 
-    var loader = new THREE.FontLoader();
-    loader.load(fontPath, (function(font) {
-       var delta = - baseSize * 2;
-       var size = baseSize;
+  //ドーナッツ
+var torusGeometry = new THREE.TorusGeometry( 3.3, 1.5, 24, 24 );
+var torusMaterial = new THREE. MeshToonMaterial( { color: 0xd66b00 } );
+var torus = new THREE.Mesh( torusGeometry, torusMaterial );
+torus.position.set( 0.5, 0, -20);
+scene.add( torus );
 
-       for (var j = 0; j < 6; j++) {
-           if ([4, 5].indexOf(j) != -1) size = baseSize / 2;
 
-           var group = new THREE.Group();
-           for (var i = 0; i < 10; i++) {
-               group.add(this._createMesh(font, i.toString(10), size, false));
-           }
-           scene.add(group);
 
-           group.position.x = delta;
-           delta += baseSize;
-           if (j == 1) delta += baseSize;
-           if ([4, 5].indexOf(j) != -1) group.position.y = - baseSize / 4;
+//なんかクネクネしてるやつ
+var torusKnotGeometry = new THREE.TorusKnotGeometry( 1.5, 0.3, 20, 6, 3, 5 );
+//全体的な大きさ、チューブの太さ、クネクネの進む方向に対して何分割するか、
+//チューブ方向に対して何分割するか、残りの二つの数字を変えるとクネクネの形が変わる
+var torusKnotMaterial = new THREE. MeshPhongMaterial( { color: 0x00ff00 } );
+var torusKnot = new THREE.Mesh( torusKnotGeometry, torusKnotMaterial );
+torusKnot.position.set( 0, 0, -15 );
+scene.add( torusKnot );
 
-           this.object[j] = group;
-       }
-       this.colon = this._createMesh(font, ':', baseSize, true);
-       scene.add(this.colon);
+//球
+var sphereGeometry = new THREE.SphereGeometry( 0.5, 32, 32 );
+var sphereMaterial = new THREE. MeshPhongMaterial( {color: 0xff8800,wireframe: true} );
+var sphere1 = new THREE.Mesh( sphereGeometry, sphereMaterial );
+var sphere2 = new THREE.Mesh( sphereGeometry, sphereMaterial );
+sphere1.position.set( 1.3, 0, -5 );
+sphere2.position.set( -1.3, 0, -5 );
+scene.add( sphere1 );
+scene.add( sphere2 );
 
-  }).bind(this));
-};
+    // 平行光源1
+    var directionalLight1 = new THREE.DirectionalLight(0xffffff);
+    directionalLight1.position.set(1, 1, 1);
+    // シーンに追加
+    scene.add(directionalLight1);
+    // 平行光源2
+        var directionalLight2 = new THREE.DirectionalLight(0xffffff);
+    directionalLight2.position.set(-1, 1, 1);
+    // シーンに追加
+    scene.add(directionalLight2);
+
+    // 初回実行
+    var update = function() {
+      requestAnimationFrame(update);
+
+      // 箱を回転させる
+      torusKnot.rotation.x += 0.01;
+      torusKnot.rotation.y += 0.01;
+      sphere1.rotation.y += 0.01;
+      sphere2.rotation.y += 0.01;
+
+
+
+      renderer.render(scene, camera);
+    };
+    update();
+  }
+  window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
