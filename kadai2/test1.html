@@ -60,15 +60,17 @@
     // 初回実行
 
     // 初回実行
-    var update = function() {
-      requestAnimationFrame(update);
-
-      // 箱を回転させる
-      box.rotation.x += 0.01;
-      box.rotation.y += 0.01;
-
-      renderer.render(scene, camera);
-    };
+    var keydown={w:true,s:true,a:true,d:true};
+        function onKeyDown ( event ) {
+        switch( event.keyCode ) {
+        //case 38: /*前進*/
+        case 87: /*W*/     keydown.w = car.position.z += -5; break;
+        //case 40: /*後進*/
+        case 83: /*S*/     keydown.s = car.position.z += 5; break;
+        //case 37: /*左折*/
+        case 65: /*A*/  keydown.a = car.rotation.y += 0.1; break;
+        //case 39: /*右折*/
+        case 68: /*D*/  keydown.d = car.rotation.y += -0.1; break;
     update();
   }
   window.addEventListener('DOMContentLoaded', init);
