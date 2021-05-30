@@ -1,118 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>Three.js チュートリアル４：仮想物理実験室</title>
-<script src="Three.js"></script>
-<style>
-div#canvas-frame{
-  border: none;
-  cursor: pointer;
-  width: 400px;
-  height: 400px;
-  background-color: #FFFFFF;
-}
-</style>
-<script>
-  var width, height;
-  var renderer;
-  function initThree() {
-    width = document.getElementById('canvas-frame').clientWidth;
-    height = document.getElementById('canvas-frame').clientHeight;
-    renderer = new THREE.WebGLRenderer({antialias: true});
-    renderer.setSize(width, height);
-    document.getElementById('canvas-frame').appendChild(renderer.domElement);
-    renderer.setClearColorHex(0xFFFFFF, 1.0);
-    renderer.shadowMapEnabled = true;//影をつける（１）
-  }
-  var camera;
-  function initCamera() {
-    camera = new THREE.PerspectiveCamera( 45 , width / height , 1 , 10000 );
-    camera.up.x = 0;
-    camera.up.y = 0;
-    camera.up.z = 1;
-    camera.position.set(500,0, 100);
-  }
-  var scene;
-  function initScene() {
-    scene = new THREE.Scene();
-  }
-  var light, light2;
-  function initLight() {
-    light = new THREE.DirectionalLight(0xFFFFFF, 1.0, 0);
-    light.position.set( 20, 20, 1000 );
-    light.castShadow = true;
-    scene.add(light);
+  <meta charset="UTF-8">
+  <title>demo</title>
 
-    light2 = new THREE.AmbientLight(0x777777);
-    scene.add(light2);
-  }
-  var plane;
-  function initObject(){
-    //床の描画
-    var yuka_n = 10, yuka_w = 50;//床の個数とサイズ
-    for(var i=-yuka_n; i<=yuka_n ; i++){
-      for(var j=-yuka_n; j<=yuka_n ; j++){
-        if((i+j)%2==0) var plane = new THREE.Mesh(
-              new THREE.PlaneGeometry(yuka_w, yuka_w, 1, 1),
-              new THREE.MeshLambertMaterial({color: 0x999999}));
-        else var plane = new THREE.Mesh(
-              new THREE.PlaneGeometry(yuka_w, yuka_w, 1, 1),
-              new THREE.MeshLambertMaterial({color: 0x4d4d4d}));
-        plane.position.x = j*yuka_w;
-        plane.position.y = i*yuka_w;
-        plane.receiveShadow = true;
-        scene.add(plane);
-      }
-    }
-  }
-  function loop() {
-    camera.lookAt( {x:0, y:0, z:100 } );
-    renderer.clear();
-    renderer.render(scene, camera);
-    window.requestAnimationFrame(loop);
-  }
-  var down = false;
-  var sy = 0, sz = 0;
-  window.onmousedown = function (ev){  //マウスダウン
-    if (ev.target == renderer.domElement) {
-      down = true;
-      sy = ev.clientX; sz = ev.clientY;
-    }
-  };
-  window.onmouseup = function(){       //マウスアップ
-    down = false;
-  };
-  window.onmousemove = function(ev) {  //マウスムーブ
-    var speed = 2;
-    if (down) {
-        if (ev.target == renderer.domElement) {
-        var dy = -(ev.clientX - sy);
-        var dz = -(ev.clientY - sz);
-        camera.position.y += dy*speed;
-        camera.position.z -= dz*speed;
-        sy -= dy;
-        sz -= dz;
-      }
-    }
-  }
-  window.onmousewheel = function(ev){//マウスホイール
-    var speed = 0.2;
-    camera.position.x += ev.wheelDelta * speed ;
-  }
-  function threeStart() {
-    initThree();
-    initCamera();
-    initScene();
-    initLight();
-    initObject();
-    loop();
-  }
-</script>
+  <!-- three.jsを読み込む(ローカル) -->
+  <!-- <script src="./three.js"></script> -->
+  <!-- three.jsを読み込む(CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/99/three.min.js"></script>
+
 </head>
+<body>
+ <script>
+  var init = function() {
 
-<body onload="threeStart();">
-<div id="errer"></div>
-<div id="canvas-frame"></div>
-</boby>
+    var width = 800,
+        height = 600;
+
+    // レンダラーを作成
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize(width, height);
+    document.body.appendChild(renderer.domElement);
+
+    // シーンを作成
+    var scene = new THREE.Scene();
+
+    // カメラを作成
+    var camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+
+
+  //ドーナッツ
+var torusGeometry = new THREE.TorusGeometry( 3.3, 1.5, 24, 24 );
+var torusMaterial = new THREE. MeshToonMaterial( { color: 0xd66b00 } );
+var torus = new THREE.Mesh( torusGeometry, torusMaterial );
+torus.position.set( 0.5, 0, -20);
+scene.add( torus );
+
+
+
+//なんかクネクネしてるやつ
+var torusKnotGeometry = new THREE.TorusKnotGeometry( 1.5, 0.3, 20, 6, 3, 5 );
+//全体的な大きさ、チューブの太さ、クネクネの進む方向に対して何分割するか、
+//チューブ方向に対して何分割するか、残りの二つの数字を変えるとクネクネの形が変わる
+var torusKnotMaterial = new THREE. MeshPhongMaterial( { color: 0x00ff00 } );
+var torusKnot = new THREE.Mesh( torusKnotGeometry, torusKnotMaterial );
+torusKnot.position.set( 0, 0, -15 );
+scene.add( torusKnot );
+
+//球
+var sphereGeometry = new THREE.SphereGeometry( 0.5, 32, 32 );
+var sphereMaterial = new THREE. MeshPhongMaterial( {color: 0xff8800,wireframe: true} );
+var sphere1 = new THREE.Mesh( sphereGeometry, sphereMaterial );
+var sphere2 = new THREE.Mesh( sphereGeometry, sphereMaterial );
+sphere1.position.set( 1.3, 0, -5 );
+sphere2.position.set( -1.3, 0, -5 );
+scene.add( sphere1 );
+scene.add( sphere2 );
+
+    // 平行光源1
+    var directionalLight1 = new THREE.DirectionalLight(0xffffff);
+    directionalLight1.position.set(1, 1, 1);
+    // シーンに追加
+    scene.add(directionalLight1);
+    // 平行光源2
+        var directionalLight2 = new THREE.DirectionalLight(0xffffff);
+    directionalLight2.position.set(-1, 1, 1);
+    // シーンに追加
+    scene.add(directionalLight2);
+
+    // 初回実行
+    var update = function() {
+      requestAnimationFrame(update);
+
+      // 箱を回転させる
+      torusKnot.rotation.x += 0.01;
+      torusKnot.rotation.y += 0.01;
+      sphere1.rotation.y += 0.01;
+      sphere2.rotation.y += 0.01;
+
+
+
+      renderer.render(scene, camera);
+    };
+    update();
+  }
+  window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
 </html>
